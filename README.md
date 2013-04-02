@@ -1,12 +1,12 @@
-# Rafter::ApiVersion
+# RackApiVersioning
 
-Include in your routing constraints to dictate what version the request is routed to.
+Version your Rack based API's using headers either through middleware or routing constraints.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
-    gem 'rafter_api_version'
+    gem 'rack-api-versioning'
 
 And then execute:
 
@@ -14,13 +14,15 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install rafter_api_version
+    $ gem install rack-api-versioning
 
-## Usage
+## Usage in Rails
 
 		Your::Application.routes.draw do
-  		constraints Rafter::ApiVersion.new( :target_version => 3,
-  																		    :default_version => 2 ) do
+  		constraints RackApiVersioning::Constraint.new( :target_version => 3,
+  																		               :default_version => 2,
+                                                     :app_name => "awesome-app",
+                                                     :media_type => "json" ) do
     		scope :module => :v3 do
       		resources :orders, :only => [:create, :show] do
 
@@ -28,12 +30,30 @@ Or install it yourself as:
      	end
     end
 
-TODO: Write usage instructions here
+## Usage in any Rack app
 
-## Contributing
+  Rack::Builder.new do
+      
+      map '/' do        
+        use RackApiVersioning::Middleware, 
+          :app_name => "awesome-app",
+          :default_version => 1,
+          :target_version => 2
 
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Added some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+        run lambda { |env| 
+          [200, {"Content-Type" => "text/html"}, "Testing RackApiVersioning"] 
+        }
+      end
+
+      map "/new-improved-api" do
+        use RackApiVersioning::Middleware, 
+          :app_name => "awesome-app",
+          :default_version => 2,
+          :target_version => 3
+
+        run lambda { |env| 
+          [200, {"Content-Type" => "text/html"}, "Testing RackApiVersioning"] 
+        } 
+      end
+      
+    end
