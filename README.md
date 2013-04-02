@@ -18,9 +18,9 @@ Or install it yourself as:
 
 ## Usage in Rails
 
-		Your::Application.routes.draw do
-  		constraints RackApiVersioning::Constraint.new( :target_version => 3,
-  																		               :default_version => 2,
+    Your::Application.routes.draw do
+      constraints RackApiVersioning::Constraint.new( :target_version => 3,
+                                                     :default_version => 2,
                                                      :app_name => "awesome-app",
                                                      :media_type => "json" ) do
     		scope :module => :v3 do
@@ -32,7 +32,7 @@ Or install it yourself as:
 
 ## Usage in any Rack app
 
-  Rack::Builder.new do
+    Rack::Builder.new do
       
       map '/' do        
         use RackApiVersioning::Middleware, 
