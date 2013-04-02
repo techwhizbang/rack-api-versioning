@@ -17,7 +17,7 @@ Or install it yourself as:
     $ gem install rack-api-versioning
 
 ## Usage in Rails
-
+```ruby
     Your::Application.routes.draw do
       constraints RackApiVersioning::Constraint.new( :target_version => 3,
                                                      :default_version => 2,
@@ -29,9 +29,9 @@ Or install it yourself as:
       	end
      	end
     end
-
+```
 ## Usage in any Rack app
-
+```ruby
     Rack::Builder.new do
       
       map '/' do        
@@ -57,3 +57,4 @@ Or install it yourself as:
       end
       
     end
+```
