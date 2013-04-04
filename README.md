@@ -1,5 +1,7 @@
 # RackApiVersioning
 
+[![Build Status](https://travis-ci.org/techwhizbang/rack-api-versioning.png)](https://travis-ci.org/techwhizbang/rack-api-versioning)
+
 Version your Rack based API's using headers either through middleware or routing constraints.
 
 ## Installation
